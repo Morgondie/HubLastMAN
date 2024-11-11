@@ -45,19 +45,49 @@ public class Gun : MonoBehaviour
     }
     void Shoot()
     {
-        
+
+        //RaycastHit hit;
+        //if (Physics.Raycast(_fpscam.transform.position, _fpscam.transform.forward, out hit, _range))
+        //{
+        //    Debug.Log(hit.transform.name);
+
+        //    Enemigo target = hit.transform.GetComponent<Enemigo>();
+        //    if (target != null)
+        //    {
+        //        target.takedamage(_damage);
+        //    }
+
+        //    if (hit.rigidbody!= null)
+        //    {
+        //        hit.rigidbody.AddForce(-hit.normal * _impactforce);
+        //    }
+
+        //    Instantiate(_impacteffect, hit.point, Quaternion.LookRotation(hit.normal));
+
+        //    currentammo--;
+        //}
+
         RaycastHit hit;
         if (Physics.Raycast(_fpscam.transform.position, _fpscam.transform.forward, out hit, _range))
         {
             Debug.Log(hit.transform.name);
 
-            Enemigo target = hit.transform.GetComponent<Enemigo>();
-            if (target != null)
+            // Verificar si el componente es Enemigo o Enemy
+            var enemy = hit.transform.GetComponent<Enemigo>();
+            if (enemy != null)
             {
-                target.takedamage(_damage);
+                enemy.takedamage(_damage);
+            }
+            else
+            {
+                var enemyAlt = hit.transform.GetComponent<Enemy>();
+                if (enemyAlt != null)
+                {
+                    enemyAlt.takedamage(_damage);
+                }
             }
 
-            if (hit.rigidbody!= null)
+            if (hit.rigidbody != null)
             {
                 hit.rigidbody.AddForce(-hit.normal * _impactforce);
             }
